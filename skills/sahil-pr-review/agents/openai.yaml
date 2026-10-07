@@ -1,0 +1,7 @@
+interface:
+  display_name: "Sahil PR Review"
+  short_description: "Lens-driven, actionable pull-request review"
+  default_prompt: "Use $sahil-pr-review to review this pull request."
+policy:
+  allow_implicit_invocation: true
+

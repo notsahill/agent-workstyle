@@ -1,0 +1,16 @@
+{
+  "name": "sahil-agent-workstyle",
+  "displayName": "Sahil Agent Workstyle",
+  "version": "0.1.0",
+  "description": "Decision-first code generation and lens-driven pull-request review skills.",
+  "author": {
+    "name": "Sahil"
+  },
+  "keywords": [
+    "coding",
+    "code-review",
+    "pull-request",
+    "workstyle"
+  ]
+}
+
