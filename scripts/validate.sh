@@ -8,11 +8,11 @@ AGENT_WORKSTYLE_UV_CACHE="${TMPDIR:-/tmp}/agent-workstyle-uv-cache"
 
 if [ -f "$AGENT_WORKSTYLE_QUICK_VALIDATE" ]; then
   if python3 -c 'import yaml' >/dev/null 2>&1; then
-    python3 "$AGENT_WORKSTYLE_QUICK_VALIDATE" "$AGENT_WORKSTYLE_ROOT/skills/sahil-code"
-    python3 "$AGENT_WORKSTYLE_QUICK_VALIDATE" "$AGENT_WORKSTYLE_ROOT/skills/sahil-pr-review"
+    python3 "$AGENT_WORKSTYLE_QUICK_VALIDATE" "$AGENT_WORKSTYLE_ROOT/skills/decision-first-code"
+    python3 "$AGENT_WORKSTYLE_QUICK_VALIDATE" "$AGENT_WORKSTYLE_ROOT/skills/lens-pr-review"
   elif command -v uv >/dev/null 2>&1; then
-    UV_CACHE_DIR="$AGENT_WORKSTYLE_UV_CACHE" uv run --with pyyaml "$AGENT_WORKSTYLE_QUICK_VALIDATE" "$AGENT_WORKSTYLE_ROOT/skills/sahil-code"
-    UV_CACHE_DIR="$AGENT_WORKSTYLE_UV_CACHE" uv run --with pyyaml "$AGENT_WORKSTYLE_QUICK_VALIDATE" "$AGENT_WORKSTYLE_ROOT/skills/sahil-pr-review"
+    UV_CACHE_DIR="$AGENT_WORKSTYLE_UV_CACHE" uv run --with pyyaml "$AGENT_WORKSTYLE_QUICK_VALIDATE" "$AGENT_WORKSTYLE_ROOT/skills/decision-first-code"
+    UV_CACHE_DIR="$AGENT_WORKSTYLE_UV_CACHE" uv run --with pyyaml "$AGENT_WORKSTYLE_QUICK_VALIDATE" "$AGENT_WORKSTYLE_ROOT/skills/lens-pr-review"
   else
     printf 'error: validating Codex skills requires PyYAML or uv\n' >&2
     exit 1

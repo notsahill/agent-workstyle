@@ -1,7 +1,0 @@
-interface:
-  display_name: "Sahil Code"
-  short_description: "Decision-first coding in Sahil's work style"
-  default_prompt: "Use $sahil-code to plan and implement this change with me."
-policy:
-  allow_implicit_invocation: true
-

@@ -1,17 +1,17 @@
 ---
-name: sahil-pr-review
-description: Review a pull request, branch, commit range, patch, or code diff in Sahil's preferred workflow. Ask for the review lens first, inspect relevant context, and return only actionable findings; do not use for implementing fixes.
+name: lens-pr-review
+description: Review a pull request, branch, commit range, patch, or code diff with a user-selected review lens. Ask for the review lens first, inspect relevant context, and return only actionable findings; do not use for implementing fixes.
 metadata:
   author: Sahil
 ---
 
-# Sahil PR Review
+# Lens PR Review
 
-Choose the review lens with Sahil before inspecting the change, then return only defects the author can act on.
+Choose the review lens with the user before inspecting the change, then return only defects the author can act on.
 
 ## Choose the lens
 
-If the request does not already select a lens, ask Sahil to choose one or describe a custom focus:
+If the request does not already select a lens, ask the user to choose one or describe a custom focus:
 
 - **Correctness:** behavior, regressions, contracts, edge cases, error handling, concurrency, and compatibility.
 - **Security:** trust boundaries, authorization, validation, injection, secrets, privacy, and unsafe defaults.
@@ -19,7 +19,7 @@ If the request does not already select a lens, ask Sahil to choose one or descri
 - **Maintainability:** structure, clarity, coupling, API design, duplication, and future change cost.
 - **Tests:** missing cases, weak assertions, false confidence, failure paths, and flaky or brittle coverage.
 - **Comprehensive:** all of the above.
-- **Custom:** the focus Sahil specifies.
+- **Custom:** the focus the user specifies.
 
 Do not begin the review until the lens is known. A lens explicitly stated in the request counts as the selection.
 
@@ -28,7 +28,7 @@ Do not begin the review until the lens is known. A lens explicitly stated in the
 - Read repository guidance, the full diff, the relevant surrounding code, and applicable tests or contracts.
 - Trace enough of the affected flow to prove each finding; do not infer a defect from a changed line in isolation.
 - Review the selected lens deeply. Also report a clear P0 or P1 defect outside that lens when ignoring it would expose users or the system to serious harm.
-- Stay in review mode. Do not edit code, commit, approve, reject, or post comments unless Sahil separately asks for that action.
+- Stay in review mode. Do not edit code, commit, approve, reject, or post comments unless the user separately asks for that action.
 
 ## Findings
 

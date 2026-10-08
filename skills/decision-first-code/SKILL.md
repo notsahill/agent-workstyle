@@ -1,13 +1,13 @@
 ---
-name: sahil-code
-description: Apply Sahil's decision-first work style when implementing, modifying, fixing, refactoring, or generating code. Use for coding tasks that may change repository files; do not use for read-only explanations or pull-request reviews.
+name: decision-first-code
+description: Apply a decision-first work style when implementing, modifying, fixing, refactoring, or generating code. Use for coding tasks that may change repository files; do not use for read-only explanations or pull-request reviews.
 metadata:
   author: Sahil
 ---
 
-# Sahil Code
+# Decision-First Code
 
-Make implementation decisions with Sahil, then execute the selected approach precisely.
+Make implementation decisions with the user, then execute the selected approach precisely.
 
 ## Before editing
 
@@ -20,7 +20,7 @@ Make implementation decisions with Sahil, then execute the selected approach pre
    - mark the existing repository convention as the default;
    - recommend one option and give the reason, explaining why it beats the default when it differs;
    - omit speculative, invalid, or repository-incompatible alternatives.
-5. Ask Sahil to choose before editing, including which design approach to take. Bundle related choices instead of asking a stream of tiny questions.
+5. Ask the user to choose before editing, including which design approach to take. Bundle related choices instead of asking a stream of tiny questions.
 
 If there is only one viable approach, state the proposed plan and why alternatives are not viable, then wait for approval. An approach already selected or an implementation plan already approved in the current conversation counts as approval; do not ask again.
 
@@ -28,9 +28,9 @@ Routine mechanical details do not need separate approval. A choice is nontrivial
 
 ## Implement
 
-- Follow the selected approach and design approach. Where Sahil has not chosen otherwise, follow the repository's established conventions.
+- Follow the selected approach and design approach. Where the user has not chosen otherwise, follow the repository's established conventions.
 - Make the smallest coherent change that fully solves the request, including necessary tests and cleanup. Avoid unrelated refactors.
-- If implementation reveals a new nontrivial choice, stop before committing to it, present the viable options with a recommendation, and wait for Sahil's decision.
+- If implementation reveals a new nontrivial choice, stop before committing to it, present the viable options with a recommendation, and wait for the user's decision.
 - Do not silently broaden scope or substitute a different approach because it is easier.
 
 ## Verify and hand off

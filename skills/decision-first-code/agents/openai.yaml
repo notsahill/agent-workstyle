@@ -1,0 +1,7 @@
+interface:
+  display_name: "Decision-First Code"
+  short_description: "Decision-first coding with the user"
+  default_prompt: "Use $decision-first-code to plan and implement this change with me."
+policy:
+  allow_implicit_invocation: true
+

@@ -2,7 +2,7 @@
 
 These fixtures test decisions and observable invariants, not exact wording.
 
-## `sahil-code`
+## `decision-first-code`
 
 ### Multiple consequential choices
 
@@ -22,7 +22,7 @@ These fixtures test decisions and observable invariants, not exact wording.
 
 - Presents the viable design approaches, each with a brief explanation, pros, and cons.
 - Marks the repository's existing decorator convention as the default.
-- Recommends one option, justifying any departure from the default, and waits for Sahil to choose before editing.
+- Recommends one option, justifying any departure from the default, and waits for the user to choose before editing.
 
 ### One viable approach
 
@@ -61,7 +61,7 @@ These fixtures test decisions and observable invariants, not exact wording.
 - Expands to relevant unit, integration, and behavioral checks for the payment transition.
 - Reports verification gaps rather than implying unrun checks passed.
 
-## `sahil-pr-review`
+## `lens-pr-review`
 
 ### Lens selection
 

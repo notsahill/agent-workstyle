@@ -130,14 +130,14 @@ AGENT_WORKSTYLE_CODEX_BASE="$AGENT_WORKSTYLE_TARGET_HOME/.agents/skills"
 AGENT_WORKSTYLE_CLAUDE_BASE="$AGENT_WORKSTYLE_TARGET_HOME/.claude/skills"
 
 if [ "$AGENT_WORKSTYLE_ACTION" = install ]; then
-  for AGENT_WORKSTYLE_SKILL in sahil-code sahil-pr-review; do
+  for AGENT_WORKSTYLE_SKILL in decision-first-code lens-pr-review; do
     AGENT_WORKSTYLE_SOURCE=$(source_for "$AGENT_WORKSTYLE_SKILL")
     check_install_target "$AGENT_WORKSTYLE_SOURCE" "$(target_for "$AGENT_WORKSTYLE_CODEX_BASE" "$AGENT_WORKSTYLE_SKILL")"
     check_install_target "$AGENT_WORKSTYLE_SOURCE" "$(target_for "$AGENT_WORKSTYLE_CLAUDE_BASE" "$AGENT_WORKSTYLE_SKILL")"
   done
 fi
 
-for AGENT_WORKSTYLE_SKILL in sahil-code sahil-pr-review; do
+for AGENT_WORKSTYLE_SKILL in decision-first-code lens-pr-review; do
   AGENT_WORKSTYLE_SOURCE=$(source_for "$AGENT_WORKSTYLE_SKILL")
   for AGENT_WORKSTYLE_BASE in "$AGENT_WORKSTYLE_CODEX_BASE" "$AGENT_WORKSTYLE_CLAUDE_BASE"; do
     AGENT_WORKSTYLE_TARGET=$(target_for "$AGENT_WORKSTYLE_BASE" "$AGENT_WORKSTYLE_SKILL")
