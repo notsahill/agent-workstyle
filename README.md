@@ -9,11 +9,21 @@ The skill folders follow the open Agent Skills format and are shared unchanged b
 
 ## Install
 
-Install globally for both tools using symlinks to this checkout:
+Clone the repository somewhere permanent:
 
 ```sh
+git clone https://github.com/notsahill/agent-workstyle.git
+cd agent-workstyle
+```
+
+Preview the links, then install globally for both tools using symlinks to this checkout:
+
+```sh
+./scripts/install.sh --dry-run
 ./scripts/install.sh
 ```
+
+Because the skills are symlinked, edits in this checkout take effect immediately and `git pull` updates them. Moving or deleting the checkout breaks the links; run `./scripts/install.sh uninstall` from the old location first, or remove the dangling links, then run `./scripts/install.sh` again from the new location.
 
 Inspect or remove only links created by this repository:
 
