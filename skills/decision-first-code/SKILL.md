@@ -1,6 +1,6 @@
 ---
 name: decision-first-code
-description: Apply a decision-first work style when implementing, modifying, fixing, refactoring, or generating code. Use for coding tasks that may change repository files; do not use for read-only explanations, plan writing, plan reviews, or pull-request reviews. For bugs whose cause is not yet known, use root-cause-debug first.
+description: Apply a decision-first work style when implementing, modifying, fixing, refactoring, or generating code. Use for coding tasks that may change repository files; do not use for read-only explanations, plan writing, plan reviews, executing an approved multi-task plan (use reviewed-plan-execution), or pull-request reviews. For bugs whose cause is not yet known, use root-cause-debug first.
 metadata:
   author: Sahil
 ---

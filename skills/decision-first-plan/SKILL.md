@@ -1,13 +1,13 @@
 ---
 name: decision-first-plan
-description: Plan larger or multi-step work before coding. Explore the project, present the key decisions with pros, cons, and a recommendation, wait for choices, then write a step-by-step implementation plan without editing code. Use when asked to plan, scope, or design a feature, migration, or refactor; do not use for reviewing an existing plan or for small single-step changes.
+description: Plan larger or multi-step work before coding. Explore the project, settle every nontrivial decision with the user using the decision-first-code checkpoint, then write a structured, task-by-task implementation plan without editing code. Use when asked to plan, scope, or design a feature, migration, or refactor; do not use for reviewing an existing plan, executing a plan, or small single-step changes.
 metadata:
   author: Sahil
 ---
 
 # Decision-First Plan
 
-Settle the decisions with the user first, then write a plan a capable engineer could execute without coming back with questions.
+Settle the decisions with the user first, then write a plan an engineer who has never seen this codebase could execute task by task without coming back with questions.
 
 This skill encodes the user's own work style. When it applies, it takes precedence over overlapping general-purpose planning skills (for example brainstorming or writing-plans); where they conflict, follow this skill.
 
@@ -16,38 +16,91 @@ This skill encodes the user's own work style. When it applies, it takes preceden
 - Read the applicable repository instructions and the code, tests, configuration, and documentation the work touches.
 - Identify the goal, the constraints, what is explicitly out of scope, and what success looks like. Ask only for what the project and the request cannot answer.
 - Find how the repository already handles similar work; that convention is the default design.
+- If the work spans several independent subsystems, propose splitting it into one plan per subsystem, each producing working, testable software on its own.
 
 ## Decide
 
-Present a compact checkpoint of every nontrivial decision the plan depends on, such as architecture, interfaces, data and schema changes, migration and compatibility strategy, rollout, new dependencies, and test strategy. For each option:
+Run the decision-first-code **Before editing** checkpoint, applied to the whole plan: present every nontrivial decision the plan depends on (architecture, interfaces, data and schema, migration and compatibility, rollout, new dependencies, test strategy) with a brief explanation, pros, cons, the existing repository convention marked as the default, and a recommendation; treat every new dependency as nontrivial; list planned trivial fixes and larger issues found in the area, asking what to do with each larger one.
 
-- explain the approach briefly;
-- list its pros and cons;
-- mark the existing repository convention as the default;
-- recommend one option and give the reason, explaining why it beats the default when it differs.
+Bundle related decisions into one checkpoint and wait for the user's choices. Decisions already made in the current conversation count; do not ask again. Do not write tasks until the decisions are settled.
 
-Treat every new dependency as a nontrivial decision. List larger issues discovered in the area and ask whether each belongs in the plan. Bundle related decisions into one checkpoint and wait for the user's choices. Decisions already made in the current conversation count; do not ask again.
+## Map the files
+
+Before writing tasks, list every file to create or modify and the one responsibility each has. Design units with clear boundaries and well-defined interfaces; files that change together live together. In an existing codebase, follow its established structure; split a file only when the plan already modifies it and it has become unwieldy.
+
+## Size the tasks
+
+A task is the smallest unit that carries its own test cycle and is worth an independent review. Fold setup, configuration, scaffolding, and documentation into the task whose deliverable needs them. Split only where a reviewer could reasonably reject one task while approving its neighbor. Every task ends with an independently testable deliverable.
+
+Each step is one action with a checkable result: write the failing test; run it and see it fail; implement; run it and see it pass; commit.
 
 ## Write the plan
 
-- Record the decisions made, with their reasons, at the top.
-- Break the work into ordered steps small enough to verify independently. For each step give:
-  - **Files:** exact paths to create or modify, with line ranges where known.
-  - **Interfaces:** what the step consumes from earlier steps and produces for later ones, with exact names, parameters, and return types.
-  - **Test first:** the test to write, with its key assertions.
-  - **Change:** the decision the implementer cannot make alone; signatures and pinned values, not full bodies the signature and test already determine.
-  - **Verify:** the command to run and the output that means it passed.
-- Call out dependencies between steps, risky steps, rollback points, and anything that needs the user's input later.
-- Keep scope to what was decided; list out-of-scope follow-ups separately.
+Save it to `docs/plans/YYYY-MM-DD-<feature>.md` unless the repository or the user specifies another location. Use this structure:
+
+````markdown
+# <Feature> Implementation Plan
+
+> **For agentic workers:** execute with the reviewed-plan-execution skill. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** <one sentence>
+
+**Architecture:** <two or three sentences on the approach>
+
+**Tech Stack:** <key technologies and libraries>
+
+**Decisions:** <each decision settled at the checkpoint, with its reason>
+
+## Global Constraints
+
+<Project-wide requirements every task must honor: version floors, dependency limits, naming and copy rules, compatibility and platform requirements. One line each, exact values verbatim.>
+
+## Review Focus
+
+<The up to five inputs or failure modes the requirements imply but no task's tests would otherwise exercise, most likely to bite a user first. One line each: the input or condition, and the behavior a reasonable user would expect. Add the test that pins each line to the task that owns the code.>
+
+## Out of Scope
+
+<Follow-ups deliberately excluded, including larger issues the user chose to defer.>
+
+---
+
+### Task N: <component>
+
+**Files:**
+- Create: `exact/path/new_file.ext`
+- Modify: `exact/path/existing.ext:123-145`
+- Test: `exact/path/test_file.ext`
+
+**Interfaces:**
+- Consumes: <exact names and signatures used from earlier tasks>
+- Produces: <exact names, parameters, and return types later tasks rely on>
+
+- [ ] **Step 1: Write the failing test** — test name and assertions as code, with exact values.
+- [ ] **Step 2: Run it and confirm it fails** — command, and the expected failure.
+- [ ] **Step 3: Implement `<signature>` in `<file>`** — one line on the approach when the signature and test leave a choice; a code block only for an algorithm they do not determine.
+- [ ] **Step 4: Run it and confirm it passes** — command, and the expected output.
+- [ ] **Step 5: Commit** — files to stage and the commit message.
+
+## Execution Log
+
+<Left empty; reviewed-plan-execution appends progress and rulings here.>
+````
+
+A step is done when the implementer can write exactly one reasonable thing from it. Give tests as code, signatures and pinned values for implementation, and the command plus expected output for verification. Refer to another task's Interfaces block instead of repeating its code. Never write lines that decide nothing, such as "TBD", "handle edge cases", or "add appropriate validation".
+
+Do not edit product code while planning.
 
 ## Self-check
 
-Before presenting the plan, check it and fix what you find:
+Before presenting the plan, check it and fix what you find inline:
 
-- **Coverage:** every requirement and decision maps to a step.
-- **Consistency:** every name, signature, and type used in a later step matches where an earlier step defined it.
-- **Decisiveness:** no step says only "handle edge cases", "add validation", or "TBD"; each lets the implementer write exactly one reasonable thing.
+- **Coverage:** every requirement and decision maps to a task.
+- **Step scan:** every step lets the implementer write exactly one reasonable thing; no step transcribes a body its signature and tests already determine.
+- **Consistency:** every name, signature, and type used in a later task matches where an earlier task defined it.
+- **Review Focus:** each line has its test in the owning task; an empty section means you checked and found none.
 - **Proportion:** the plan is not longer than the code it describes; replace transcribed code with signatures and test assertions.
-- Place the plan where the user or repository convention says. If neither says, present it in the conversation and ask whether to save it.
 
-Do not edit product code while planning. When the plan is approved, implementation follows the decision-first-code work style.
+## Hand off
+
+Link the saved plan and ask the user to review it. Once approved, execution follows the reviewed-plan-execution skill.
