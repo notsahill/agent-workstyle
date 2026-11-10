@@ -28,6 +28,7 @@ Do not begin the review until the lens is known. A lens explicitly stated in the
 ## Inspect
 
 - Read repository guidance, the full diff, the relevant surrounding code, and applicable tests or contracts.
+- If the change implements a plan, spec, issue, or stated requirements, read them and check the diff against them. Missing planned work and unexplained deviations are findings under any lens.
 - Trace enough of the affected flow to prove each finding; do not infer a defect from a changed line in isolation.
 - Review the selected lens deeply. Also report a clear P0 or P1 defect outside that lens when ignoring it would expose users or the system to serious harm.
 - Stay in review mode. Do not edit code, commit, approve, reject, or post comments unless the user separately asks for that action.
@@ -51,3 +52,8 @@ Impact and the conditions that trigger it. Evidence from the changed code and re
 Keep locations as tight as possible and within the diff when the interface permits. Do not include praise, a change summary, stylistic preferences, or speculative concerns. Ask a question only when missing information prevents deciding whether an issue is real.
 
 If there are no actionable findings under the chosen lens, say so explicitly and mention any material verification limitation.
+
+After the findings, add:
+
+- **Declined to judge:** each concern you considered and set aside (unproven, out of lens, out of scope, or intended behavior), one line each with the reason, so nothing is dropped silently. Write "None" if you set nothing aside.
+- **Verdict:** `Ready to merge`, `Ready with fixes`, or `Not ready`, with a one-sentence reason grounded in the findings.

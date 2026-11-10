@@ -56,3 +56,8 @@ Why it is a problem, with evidence from the project. A concrete change to the pl
 Do not include praise, a plan summary, stylistic preferences, or speculative concerns. Ask a question only when missing information prevents deciding whether an issue is real.
 
 If there are no actionable findings, say so explicitly and mention any material limit on what the exploration could cover.
+
+After the findings, add:
+
+- **Declined to judge:** each concern you considered and set aside (unproven, out of scope, or a deliberate tradeoff the plan states), one line each with the reason. Write "None" if you set nothing aside.
+- **Verdict:** `Ready to execute`, `Ready with changes`, or `Not ready`, with a one-sentence reason grounded in the findings.
