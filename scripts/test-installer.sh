@@ -26,6 +26,8 @@ assert_absent() {
   fi
 }
 
+AGENT_WORKSTYLE_EXPECTED_SKILLS="decision-first-code lens-pr-review root-cause-debug decision-first-plan critical-plan-review diagram-first-explain"
+
 AGENT_WORKSTYLE_TEST_HOME="$AGENT_WORKSTYLE_TEST_ROOT/home"
 mkdir -p "$AGENT_WORKSTYLE_TEST_HOME"
 
@@ -36,13 +38,13 @@ assert_absent "$AGENT_WORKSTYLE_TEST_HOME/.agents/skills/decision-first-code"
 "$AGENT_WORKSTYLE_SCRIPT" install --home "$AGENT_WORKSTYLE_TEST_HOME"
 "$AGENT_WORKSTYLE_SCRIPT" status --home "$AGENT_WORKSTYLE_TEST_HOME"
 
-for AGENT_WORKSTYLE_SKILL in decision-first-code lens-pr-review; do
+for AGENT_WORKSTYLE_SKILL in $AGENT_WORKSTYLE_EXPECTED_SKILLS; do
   assert_link "$AGENT_WORKSTYLE_TEST_HOME/.agents/skills/$AGENT_WORKSTYLE_SKILL"
   assert_link "$AGENT_WORKSTYLE_TEST_HOME/.claude/skills/$AGENT_WORKSTYLE_SKILL"
 done
 
 "$AGENT_WORKSTYLE_SCRIPT" uninstall --home "$AGENT_WORKSTYLE_TEST_HOME"
-for AGENT_WORKSTYLE_SKILL in decision-first-code lens-pr-review; do
+for AGENT_WORKSTYLE_SKILL in $AGENT_WORKSTYLE_EXPECTED_SKILLS; do
   assert_absent "$AGENT_WORKSTYLE_TEST_HOME/.agents/skills/$AGENT_WORKSTYLE_SKILL"
   assert_absent "$AGENT_WORKSTYLE_TEST_HOME/.claude/skills/$AGENT_WORKSTYLE_SKILL"
 done
@@ -52,8 +54,10 @@ if "$AGENT_WORKSTYLE_SCRIPT" install --home "$AGENT_WORKSTYLE_TEST_HOME"; then
   printf 'expected conflict failure\n' >&2
   exit 1
 fi
-assert_absent "$AGENT_WORKSTYLE_TEST_HOME/.agents/skills/lens-pr-review"
-assert_absent "$AGENT_WORKSTYLE_TEST_HOME/.claude/skills/decision-first-code"
+for AGENT_WORKSTYLE_SKILL in $AGENT_WORKSTYLE_EXPECTED_SKILLS; do
+  [ "$AGENT_WORKSTYLE_SKILL" = decision-first-code ] || assert_absent "$AGENT_WORKSTYLE_TEST_HOME/.agents/skills/$AGENT_WORKSTYLE_SKILL"
+  assert_absent "$AGENT_WORKSTYLE_TEST_HOME/.claude/skills/$AGENT_WORKSTYLE_SKILL"
+done
 
 printf 'installer tests passed\n'
 
