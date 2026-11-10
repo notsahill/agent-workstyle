@@ -44,6 +44,8 @@ Routine mechanical details do not need separate approval. A choice is nontrivial
 
 - Run the narrowest meaningful checks first, then expand verification in proportion to regression risk.
 - Verify observable behavior where practical; do not treat compilation or static checks alone as proof of runtime behavior when the change requires more.
+- For each regression test that guards a fix, prove it catches the bug: once it passes, temporarily revert the fix, confirm the test fails, then restore the fix and confirm it passes again.
+- Before shipping, run the repository's full test suite, plus the build and lint checks its CI runs, on the final tree. If the repository has no full suite, say so and name what was run instead.
 
 ## Ship
 
@@ -53,7 +55,7 @@ The user has pre-authorized this git flow once the change is verified; do not as
 2. Commit in focused commits that follow the repository's commit conventions.
 3. Push the branch and open a pull request whose description covers the change, the decisions made, the trivial fixes, and the verification performed.
 
-Stop before shipping and report instead if verification failed, the repository has no remote, or the user said not to commit for this task. Never force-push, rewrite published history, or merge without an explicit request.
+Stop before shipping and report instead if verification failed (including the full suite), the repository has no remote, or the user said not to commit for this task. Never force-push, rewrite published history, or merge without an explicit request.
 
 ## Hand off
 

@@ -19,6 +19,8 @@ This skill encodes the user's own work style. When it applies, it takes preceden
 
 ## Find the root cause
 
+- Check what changed: recent commits touching the failing path, and dependency, configuration, and environment changes since it last worked.
+- Find similar code in the project that works, compare it with the failing path, and list every difference, however small.
 - Trace the failing path from the symptom back to the earliest point where actual state diverges from expected state.
 - Form hypotheses and test each one with evidence: a targeted log, assertion, debugger inspection, `git bisect`, or a minimal experiment. Discard hypotheses the evidence rejects.
 - Distinguish the root cause from the symptom and from contributing factors. A fix at the symptom is not a root-cause fix.
@@ -38,4 +40,8 @@ Wait for the user's decision before fixing. If the root cause could not be prove
 
 ## Fix
 
-After the user chooses, implement with the decision-first-code work style: start from a regression test that fails for the proven root cause, make the chosen fix, announce and apply trivial fixes, ask about larger issues, verify, ship through the pre-authorized git flow, and hand off with a change walkthrough. Confirm the original reproduction now passes.
+After the user chooses, implement with the decision-first-code work style: start from a regression test that fails for the proven root cause, make the chosen fix, announce and apply trivial fixes, ask about larger issues, verify (including the revert check on the regression test and the full suite), ship through the pre-authorized git flow, and hand off with a change walkthrough. Confirm the original reproduction now passes.
+
+## When fixes keep failing
+
+Count fix attempts for the same failure. If a fix does not resolve it, return to finding the root cause with the new evidence instead of layering another fix on top. After three failed fixes, or when each fix reveals a new problem somewhere else, stop: do not attempt a fourth. Present the evidence that the design itself may be unsound (shared state, coupling, a pattern that does not fit), the options (rework the design, contain the problem, or keep investigating), and a recommendation, then wait for the user's decision.
