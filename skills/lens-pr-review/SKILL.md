@@ -1,6 +1,6 @@
 ---
 name: lens-pr-review
-description: Review a pull request, branch, commit range, patch, or code diff with a user-selected review lens. Ask for the review lens first, inspect relevant context, and return only actionable findings; do not use for implementing fixes.
+description: Review a pull request, branch, commit range, patch, or code diff with a user-selected review lens. Ask for the review lens first, inspect relevant context, and return only actionable findings; do not use for implementing fixes or for reviewing plans and designs.
 metadata:
   author: Sahil
 ---
@@ -8,6 +8,8 @@ metadata:
 # Lens PR Review
 
 Choose the review lens with the user before inspecting the change, then return only defects the author can act on.
+
+This skill encodes the user's own work style. When it applies, it takes precedence over overlapping general-purpose review skills; where they conflict, follow this skill.
 
 ## Choose the lens
 
