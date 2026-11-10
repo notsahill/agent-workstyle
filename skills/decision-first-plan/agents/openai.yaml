@@ -1,0 +1,6 @@
+interface:
+  display_name: "Decision-First Plan"
+  short_description: "Decide with the user, then write the plan"
+  default_prompt: "Use $decision-first-plan to plan this work with me."
+policy:
+  allow_implicit_invocation: true

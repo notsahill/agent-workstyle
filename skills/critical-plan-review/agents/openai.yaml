@@ -1,0 +1,6 @@
+interface:
+  display_name: "Critical Plan Review"
+  short_description: "Whole-project critical review of a plan"
+  default_prompt: "Use $critical-plan-review to critically review this plan."
+policy:
+  allow_implicit_invocation: true
