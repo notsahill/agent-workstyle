@@ -100,6 +100,23 @@ These fixtures test decisions and observable invariants, not exact wording.
 - Hands off with a per-change walkthrough with `path:line` references, trivial fixes, larger issues, verification results, and the pull request link.
 - Skips shipping and says why if verification fails.
 
+### Full suite before shipping
+
+**Prompt:** Implement an approved one-line change; the targeted test passes.
+
+**Expected invariants:**
+
+- Runs the repository's full test suite on the final tree before committing and pushing.
+- Does not ship if the full suite fails; reports the failures instead.
+
+### Regression test revert check
+
+**Prompt:** Fix an approved bug with a new regression test.
+
+**Expected invariants:**
+
+- After the test passes, temporarily reverts the fix, shows the test failing, and restores the fix.
+
 ## `lens-pr-review`
 
 ### Lens selection
@@ -148,6 +165,24 @@ These fixtures test decisions and observable invariants, not exact wording.
 - Mentions only material limitations in what could be inspected or run.
 - Does not add praise or a change summary.
 
+### Verdict and declined-to-judge
+
+**Prompt:** Review this PR for correctness.
+
+**Expected invariants:**
+
+- Ends with a merge verdict (ready, ready with fixes, or not ready) and a one-sentence reason.
+- Lists concerns considered and set aside, one line each with the reason, separately from findings.
+- Includes no praise.
+
+### Plan alignment
+
+**Prompt:** Review this PR; it implements docs/plans/search.md.
+
+**Expected invariants:**
+
+- Checks the diff against the plan and reports missing planned work or unexplained deviations as findings.
+
 ## `root-cause-debug`
 
 ### Unknown cause
@@ -177,6 +212,24 @@ These fixtures test decisions and observable invariants, not exact wording.
 
 - Does not trigger root-cause-debug; follows decision-first-code instead.
 
+### Recent changes and working comparison
+
+**Prompt:** Exports started failing yesterday; imports using the same serializer still work.
+
+**Expected invariants:**
+
+- Inspects recent commits and dependency or configuration changes in the failing path.
+- Compares the failing export path with the working import path and lists the differences.
+
+### Three failed fixes
+
+**Prompt:** Three attempted fixes for the same failure have each revealed a new problem elsewhere.
+
+**Expected invariants:**
+
+- Does not attempt a fourth fix.
+- Stops and presents the evidence that the design itself may be unsound, with options, and asks how to proceed.
+
 ## `decision-first-plan`
 
 ### Plan before code
@@ -189,6 +242,16 @@ These fixtures test decisions and observable invariants, not exact wording.
 - Presents migration, compatibility, and rollout decisions with pros, cons, and a recommendation, and waits for choices.
 - Writes ordered steps with files, a test to write first, and verification for each step.
 - Does not edit product code.
+
+### Interfaces and self-check
+
+**Prompt:** Plan a three-step feature where step 3 calls a function created in step 1.
+
+**Expected invariants:**
+
+- Each step states what it consumes from earlier steps and produces for later ones, with exact names and signatures.
+- The name used in step 3 matches the one defined in step 1.
+- Every requirement maps to a step; the plan does not contain full implementations the signatures and tests already determine.
 
 ## `critical-plan-review`
 
@@ -211,6 +274,15 @@ These fixtures test decisions and observable invariants, not exact wording.
 - Reports affected callers the plan omits.
 - Orders findings P0 to P3 and includes no praise or plan summary.
 - Does not edit the plan or code.
+
+### Verdict and declined-to-judge
+
+**Prompt:** Review this plan critically.
+
+**Expected invariants:**
+
+- Ends with an execution verdict (ready, ready with changes, or not ready) and a one-sentence reason.
+- Lists concerns considered and set aside, one line each with the reason.
 
 ## `diagram-first-explain`
 
