@@ -1,0 +1,6 @@
+interface:
+  display_name: "Reviewed Plan Execution"
+  short_description: "Subagent per task with independent review"
+  default_prompt: "Use $reviewed-plan-execution to execute this approved plan."
+policy:
+  allow_implicit_invocation: true

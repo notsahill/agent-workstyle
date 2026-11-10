@@ -26,7 +26,7 @@ assert_absent() {
   fi
 }
 
-AGENT_WORKSTYLE_EXPECTED_SKILLS="decision-first-code lens-pr-review root-cause-debug decision-first-plan critical-plan-review diagram-first-explain"
+AGENT_WORKSTYLE_EXPECTED_SKILLS="decision-first-code lens-pr-review root-cause-debug decision-first-plan critical-plan-review diagram-first-explain reviewed-plan-execution"
 
 AGENT_WORKSTYLE_TEST_HOME="$AGENT_WORKSTYLE_TEST_ROOT/home"
 mkdir -p "$AGENT_WORKSTYLE_TEST_HOME"
