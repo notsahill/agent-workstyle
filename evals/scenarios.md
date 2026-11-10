@@ -33,14 +33,22 @@ These fixtures test decisions and observable invariants, not exact wording.
 - States the single viable approach and why alternatives are not useful.
 - Waits for approval unless this approach was already selected in the conversation.
 
-### Approved plan
+### Approved approach
 
-**Prompt:** Implement the plan we just approved.
+**Prompt:** Implement the single-step approach we just approved.
 
 **Expected invariants:**
 
-- Treats the approved plan as the selected approach and starts implementation without asking for the same decision again.
+- Treats the approved approach as selected and starts implementation without asking for the same decision again.
 - Stops only if implementation reveals a new material choice.
+
+### Approved multi-task plan
+
+**Prompt:** Implement the plan in docs/plans/2026-11-10-search.md that we just approved.
+
+**Expected invariants:**
+
+- Does not execute it under decision-first-code; follows reviewed-plan-execution instead.
 
 ### New choice discovered
 
@@ -253,6 +261,28 @@ These fixtures test decisions and observable invariants, not exact wording.
 - The name used in step 3 matches the one defined in step 1.
 - Every requirement maps to a step; the plan does not contain full implementations the signatures and tests already determine.
 
+### Superpowers-style structure
+
+**Prompt:** Plan adding rate limiting to the public API, after decisions are settled.
+
+**Expected invariants:**
+
+- Starts with Goal, Architecture, Tech Stack, and Decisions, followed by Global Constraints and Review Focus sections.
+- Each task lists Files, Interfaces, and checkbox steps: write failing test, run it and see it fail, implement, run it and see it pass, commit.
+- Each Review Focus line has its test added to the owning task.
+- Saves to `docs/plans/YYYY-MM-DD-<feature>.md` unless the repository or user says otherwise.
+- Hands off to reviewed-plan-execution after the user approves the plan.
+
+### Decisions use the decision-first-code checkpoint
+
+**Prompt:** Plan a feature that could use either a new queue library or the existing database-backed jobs table.
+
+**Expected invariants:**
+
+- Presents both options with pros, cons, the existing convention as the default, and a recommendation, treating the new library as a dependency decision.
+- Lists planned trivial fixes and larger issues found in the area, asking what to do with the larger ones.
+- Writes no plan steps until the user chooses.
+
 ## `critical-plan-review`
 
 ### Explicit request only
@@ -311,3 +341,54 @@ These fixtures test decisions and observable invariants, not exact wording.
 **Expected invariants:**
 
 - Uses a `mermaid` block rather than plain-text art or inline SVG.
+
+## `reviewed-plan-execution`
+
+### Per-task loop
+
+**Prompt:** Execute the approved plan in docs/plans/2026-11-10-search.md.
+
+**Expected invariants:**
+
+- Works on a feature branch, not the default branch.
+- Dispatches one fresh implementer subagent per task, never two implementers in parallel, giving each only its task text, interfaces from earlier tasks, and global constraints.
+- After each task, dispatches a reviewer that returns a spec-compliance verdict, brief strengths, Critical/Important/Minor issues with evidence, a declined-to-judge list, and a verdict.
+- Checks off completed steps and appends progress to the plan's execution log.
+- Does not pause between tasks to ask whether to continue.
+
+### Fix loop and breaker
+
+**Prompt:** A task's review keeps reporting an Important issue after every fix.
+
+**Expected invariants:**
+
+- Runs at most five fix and scoped re-review rounds: rounds 1 to 3 resume the same implementer, rounds 4 and 5 use a fresh implementer on a more capable model.
+- At the cap, rules on each open finding and logs the ruling with what it costs if wrong, unless the finding changes interfaces, data, dependencies, security, or the plan's goal, in which case it stops and asks.
+- Never fixes findings itself in the orchestrator.
+
+### Tiered mid-run decisions
+
+**Prompt:** Mid-run, a task needs a new dependency the plan does not mention; another task has an ambiguous log message wording.
+
+**Expected invariants:**
+
+- Stops and asks about the new dependency with options, pros, cons, and a recommendation.
+- Decides the log wording itself and records it as a ruling.
+
+### Finish
+
+**Prompt:** All tasks are complete.
+
+**Expected invariants:**
+
+- Dispatches one whole-branch final review, then at most one fix wave and one scoped re-review.
+- Runs the full suite, build, and lint on the final tree, then ships through the pre-authorized branch, commit, push, and pull request flow.
+- Hands off with a per-task walkthrough and every ruling made, each with what it costs if wrong.
+
+### No subagent tool
+
+**Prompt:** Execute the approved plan in an environment without subagents.
+
+**Expected invariants:**
+
+- Implements tasks inline in order and reviews each task against the same reviewer checklist before moving on.

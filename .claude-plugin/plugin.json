@@ -1,8 +1,8 @@
 {
   "name": "agent-workstyle",
   "displayName": "Agent Workstyle",
-  "version": "0.2.0",
-  "description": "Personal work-style skills: decision-first coding and planning, root-cause debugging, lens-driven PR review, critical plan review, and diagram-first explanations.",
+  "version": "0.3.0",
+  "description": "Personal work-style skills: decision-first coding and planning, reviewed plan execution, root-cause debugging, lens-driven PR review, critical plan review, and diagram-first explanations.",
   "author": {
     "name": "Sahil"
   },

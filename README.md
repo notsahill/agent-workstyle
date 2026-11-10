@@ -4,11 +4,12 @@ Agent Skills that make coding agents follow a user-driven work style by default 
 
 | Skill | Use it for | What it does |
 |---|---|---|
-| `decision-first-code` | Implementing, fixing, refactoring | Presents nontrivial choices with pros and cons and a recommendation, waits for a decision, works test-first, announces trivial fixes before making them, asks about larger issues, then ships a verified branch, commits, and pull request with a change walkthrough. |
-| `root-cause-debug` | Bugs with an unknown cause | Reproduces the failure, proves the root cause with evidence, presents fix options, and waits for a decision before fixing. |
-| `decision-first-plan` | Planning larger work | Settles the key decisions with the user, then writes a step-by-step plan without editing code. |
-| `critical-plan-review` | Reviewing a plan, only when asked | Maps the whole project (in parallel subagents where available), then critiques the plan against it with prioritized, evidence-backed findings. |
-| `lens-pr-review` | Reviewing a diff or pull request | Asks for a review lens and returns only evidence-backed, actionable findings. |
+| `decision-first-code` | Implementing, fixing, refactoring | Presents nontrivial choices with pros and cons and a recommendation, waits for a decision, works test-first with revert-checked regression tests, announces trivial fixes before making them, asks about larger issues, runs the full suite, then ships a branch, commits, and pull request with a change walkthrough. |
+| `root-cause-debug` | Bugs with an unknown cause | Reproduces the failure, checks recent changes and working code, proves the root cause with evidence, presents fix options, and waits for a decision; stops after three failed fixes to question the design. |
+| `decision-first-plan` | Planning larger work | Settles decisions with the decision-first-code checkpoint, then writes a structured task-by-task plan (global constraints, review focus, per-task files, interfaces, and test-first checkbox steps) to `docs/plans/`. |
+| `reviewed-plan-execution` | Executing an approved plan | Runs one fresh implementer subagent per task with an independent reviewer, a five-round fix loop, tiered mid-run decisions, and a final whole-branch review, then ships. |
+| `critical-plan-review` | Reviewing a plan, only when asked | Maps the whole project (in parallel subagents where available), then critiques the plan against it with prioritized, evidence-backed findings, a declined-to-judge list, and a verdict. |
+| `lens-pr-review` | Reviewing a diff or pull request | Asks for a review lens, checks plan alignment, and returns only evidence-backed, actionable findings, a declined-to-judge list, and a merge verdict. |
 | `diagram-first-explain` | Explaining how code works | Leads with a diagram of the mechanism, then expands only on what was asked, in as few tokens as possible. |
 
 The skill folders follow the open Agent Skills format and are shared unchanged by Codex and Claude Code.
@@ -50,7 +51,7 @@ For Claude plugin development, this repository can instead be loaded with `claud
 Each skill states that it takes precedence over overlapping general-purpose process skills, such as those in the superpowers plugin. Some of those plugins give user instructions priority over skills, so for the strongest guarantee add this line to `~/.claude/CLAUDE.md` (Claude Code) or `~/.codex/AGENTS.md` (Codex):
 
 ```md
-When an agent-workstyle skill (decision-first-code, root-cause-debug, decision-first-plan, critical-plan-review, lens-pr-review, diagram-first-explain) applies, follow it instead of any overlapping process skill such as brainstorming, systematic-debugging, writing-plans, test-driven-development, or finishing-a-development-branch.
+When an agent-workstyle skill (decision-first-code, root-cause-debug, decision-first-plan, reviewed-plan-execution, critical-plan-review, lens-pr-review, diagram-first-explain) applies, follow it instead of any overlapping process skill such as brainstorming, systematic-debugging, writing-plans, subagent-driven-development, executing-plans, test-driven-development, or finishing-a-development-branch.
 ```
 
 ## Validate
