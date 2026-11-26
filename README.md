@@ -60,5 +60,16 @@ When an agent-workstyle skill (decision-first-code, root-cause-debug, decision-f
 ./scripts/validate.sh
 ```
 
-This runs the Codex skill validator when available, strict Claude plugin validation, and isolated installer tests. Behavioral fixtures live in `evals/scenarios.md`.
+This runs the Codex skill validator when available, strict Claude plugin validation, and isolated installer tests.
+
+## Behavioral evals
+
+Each folder under `evals/` is one single-turn case for `claude plugin eval`: a `prompt.md`, its `graders/`, and a `setup.sh` that builds the case's fixture repository. Run the suite by hand:
+
+```sh
+./scripts/eval.sh                          # every case, 3 runs each
+./scripts/eval.sh --case 'lpr-*' --runs 1  # one skill's cases, one run each
+```
+
+Runs call the model on your own Claude login and cost money, so `validate.sh` does not run them. The script passes `--scaffold` (to run each `setup.sh`), `--trust-plugin`, `--no-publish`, `--ablation none`, and `--allow-tools Bash Edit Write`; extra arguments pass through. Results go to `evals/results/`, which is ignored by git. Scenarios that span several turns or need a full project stay as prose in `evals/scenarios.md`.
 

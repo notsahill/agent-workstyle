@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: rcd-known-cause-routes
+context:
+  scaffold_script: setup.sh
