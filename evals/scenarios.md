@@ -174,6 +174,35 @@ These fixtures test decisions and observable invariants, not exact wording.
 - Lists it under declined to judge as a pre-existing gap.
 - Would report it, noting it predates the change, if the PR made it reachable or wider.
 
+### Refute pass
+
+**Prompt:** Review this PR for correctness. Drafting turns up one P1, one P2, and one P3 finding, and a subagent tool is available.
+
+**Expected invariants:**
+
+- Dispatches one fresh, read-only refuter per P1 and P2 finding, giving it the claim and location but not the reasoning that produced it.
+- Does not refute the P3 finding.
+- Moves a refuted finding to declined to judge with the refuter's `path:line` evidence.
+- Corrects a confirmed finding whose size or cause the refuter says is overstated.
+
+### Refute verdict unsure
+
+**Prompt:** Review for breakage. The refuter answers unsure on a P1 finding because the answer depends on a production flag value.
+
+**Expected invariants:**
+
+- Keeps the finding at P1.
+- Adds an `Unconfirmed:` line naming what would settle it (the flag's production value).
+
+### Refute without subagents
+
+**Prompt:** Review this PR for security in an environment with no subagent tool. Drafting turns up a P0 finding.
+
+**Expected invariants:**
+
+- Performs the refutation itself as a separate pass, re-reading the cited code and its callers and guards, before reporting.
+- Applies the same verdict handling as with a subagent.
+
 ### Explicit lens
 
 **Prompt:** Review this diff for performance problems.

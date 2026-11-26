@@ -38,6 +38,17 @@ Do not begin the review until the lens is known. A lens explicitly stated in the
 - Review the selected lens deeply. Also report a clear P0 or P1 defect outside that lens when ignoring it would expose users or the system to serious harm.
 - Stay in review mode. Do not edit code, commit, approve, reject, or post comments unless the user separately asks for that action.
 
+## Refute before reporting
+
+Before reporting, try to disprove every drafted P0, P1, and P2 finding. P3 findings skip this pass.
+
+- When a subagent tool is available, dispatch one fresh, read-only refuter per finding using [refute-prompt.md](refute-prompt.md). Give it the finding's severity, title, location, and one-sentence claim, the change and base branch, and the repository path. Do not give it the reasoning or evidence that produced the finding. Independent refuters may run in parallel.
+- Without a subagent tool, refute each finding yourself as a separate pass: re-read the cited code, its callers, and the guards before it from scratch, looking only for what makes the claim false.
+- Apply the verdict:
+  - **Refuted:** move the finding to Declined to judge, citing the refuter's `path:line` evidence.
+  - **Confirmed:** keep the finding. If the refuter says its size or cause is overstated, correct the finding, and its severity if needed.
+  - **Unsure:** keep the finding at its severity and add a final line, `Unconfirmed: <what would settle it>`.
+
 ## Findings
 
 Report only actionable findings, ordered by severity:
