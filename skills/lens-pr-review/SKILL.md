@@ -15,7 +15,10 @@ This skill encodes the user's own work style. When it applies, it takes preceden
 
 If the request does not already select a lens, ask the user to choose one or describe a custom focus:
 
-- **Correctness:** behavior, regressions, contracts, edge cases, error handling, concurrency, and compatibility.
+- **Correctness:** local defects: edge cases, null and empty values, missed branches, error handling, transactions, concurrency, and retries.
+- **Breakage:** what fails first after merge and deploy: existing callers, jobs, and screens that get new behavior; old and new code running side by side; migrations and rows already stored; flag and config defaults; dependency failures that leave state half-written or stuck; silent wrong data; and who is affected.
+- **Logic:** whether the code does what the PR, issue, or plan intends: rules that must agree across call sites, enum values and stored states the change forgets, order of operations, and tests that assert the wrong rule.
+- **Contract:** what other consumers notice: API paths, request and response shapes, enums, schemas and migrations, events, jobs, and shared modules read by clients, other repositories, or rows already stored.
 - **Security:** trust boundaries, authorization, validation, injection, secrets, privacy, and unsafe defaults.
 - **Performance:** algorithms, repeated work, I/O, allocation, contention, caching, and scale-sensitive paths.
 - **Maintainability:** structure, clarity, coupling, API design, duplication, and future change cost.
@@ -30,6 +33,8 @@ Do not begin the review until the lens is known. A lens explicitly stated in the
 - Read repository guidance, the full diff, the relevant surrounding code, and applicable tests or contracts.
 - If the change implements a plan, spec, issue, or stated requirements, read them and check the diff against them. Missing planned work and unexplained deviations are findings under any lens.
 - Trace enough of the affected flow to prove each finding; do not infer a defect from a changed line in isolation.
+- Under breakage, logic, and contract, look past the diff: find the existing callers, other copies of changed rules, and consumers of changed interfaces, and compare them with the base branch.
+- Compare suspected defects with the base branch. A defect that already exists there is not a finding for this change unless the change makes it reachable or wider; then report it and say it predates the change.
 - Review the selected lens deeply. Also report a clear P0 or P1 defect outside that lens when ignoring it would expose users or the system to serious harm.
 - Stay in review mode. Do not edit code, commit, approve, reject, or post comments unless the user separately asks for that action.
 
@@ -55,5 +60,5 @@ If there are no actionable findings under the chosen lens, say so explicitly and
 
 After the findings, add:
 
-- **Declined to judge:** each concern you considered and set aside (unproven, out of lens, out of scope, or intended behavior), one line each with the reason, so nothing is dropped silently. Write "None" if you set nothing aside.
+- **Declined to judge:** each concern you considered and set aside (unproven, out of lens, out of scope, intended behavior, or pre-existing on the base branch), one line each with the reason, so nothing is dropped silently. Write "None" if you set nothing aside.
 - **Verdict:** `Ready to merge`, `Ready with fixes`, or `Not ready`, with a one-sentence reason grounded in the findings.

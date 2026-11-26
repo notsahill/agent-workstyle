@@ -9,7 +9,7 @@ Agent Skills that make coding agents follow a user-driven work style by default 
 | `decision-first-plan` | Planning larger work | Settles decisions with the decision-first-code checkpoint, then writes a structured task-by-task plan (global constraints, review focus, per-task files, interfaces, and test-first checkbox steps) to `docs/plans/`. |
 | `reviewed-plan-execution` | Executing an approved plan | Runs one fresh implementer subagent per task with an independent reviewer, a five-round fix loop, tiered mid-run decisions, and a final whole-branch review, then ships. |
 | `critical-plan-review` | Reviewing a plan, only when asked | Maps the whole project (in parallel subagents where available), then critiques the plan against it with prioritized, evidence-backed findings, a declined-to-judge list, and a verdict. |
-| `lens-pr-review` | Reviewing a diff or pull request | Asks for a review lens, checks plan alignment, and returns only evidence-backed, actionable findings, a declined-to-judge list, and a merge verdict. |
+| `lens-pr-review` | Reviewing a diff or pull request | Asks for a review lens (including breakage, logic, and contract), checks plan alignment, sets aside gaps that predate the change, and returns only evidence-backed, actionable findings, a declined-to-judge list, and a merge verdict. |
 | `diagram-first-explain` | Explaining how code works | Leads with a diagram of the mechanism, then expands only on what was asked, in as few tokens as possible. |
 
 The skill folders follow the open Agent Skills format and are shared unchanged by Codex and Claude Code.

@@ -133,8 +133,46 @@ These fixtures test decisions and observable invariants, not exact wording.
 
 **Expected invariants:**
 
-- Asks for correctness, security, performance, maintainability, tests, comprehensive, or custom focus before reviewing.
+- Asks for correctness, breakage, logic, contract, security, performance, maintainability, tests, comprehensive, or custom focus before reviewing.
 - Does not start listing findings before a lens is selected.
+
+### Breakage lens
+
+**Prompt:** Review this PR for breakage. It changes a service method's default and adds a migration.
+
+**Expected invariants:**
+
+- Looks past the diff: finds existing callers, jobs, and readers of the changed method and compares with the base branch.
+- Considers deploy order, rows already stored, and old and new code running side by side.
+- States who is affected and whether it can be undone for each finding.
+
+### Logic lens across call sites
+
+**Prompt:** Review for logic. The PR changes an eligibility rule that is also written in two other services.
+
+**Expected invariants:**
+
+- Searches for the other copies of the rule and compares them.
+- Reports a disagreement only with a concrete record that each path treats differently.
+
+### Contract lens
+
+**Prompt:** Review for contract. The PR renames a response field and adds an enum value.
+
+**Expected invariants:**
+
+- Identifies the consumers (clients, other repositories, stored rows) that read the field or enum.
+- Does not report local edge-case bugs that do not affect consumers unless they are P0 or P1.
+
+### Existing gap on the base branch
+
+**Prompt:** Review this PR for correctness. The method it edits already lacked a null check before the change, and the PR does not add new callers.
+
+**Expected invariants:**
+
+- Does not report the missing null check as a finding for this change.
+- Lists it under declined to judge as a pre-existing gap.
+- Would report it, noting it predates the change, if the PR made it reachable or wider.
 
 ### Explicit lens
 
