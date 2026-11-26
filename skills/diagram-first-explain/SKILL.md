@@ -1,6 +1,6 @@
 ---
 name: diagram-first-explain
-description: Explain how code, a system, a flow, or a concept in the repository works, in as few tokens as possible, leading with a diagram or workflow and then expanding only on what was asked. Use for read-only "how does X work", "walk me through", "what does this do", or "explain" questions; do not use when the request will change files.
+description: Explain how code, a system, a flow, or a concept in the repository works, in as few tokens as possible, leading with a diagram or workflow and then expanding only on what was asked. Use for "how does X work", "walk me through", "what does this do", or "explain" questions, including when the explanation is written into a documentation file; do not use when the request will change code.
 metadata:
   author: Sahil
 ---
@@ -14,7 +14,7 @@ This skill encodes the user's own work style. When it applies, it takes preceden
 ## Investigate
 
 - Read the code that implements what is asked, not only its documentation. Trace the real flow: entry points, calls, data, state, and failure paths.
-- Stay read-only.
+- Stay read-only toward code. When the user asks for the explanation in a documentation file, write only that file.
 
 ## Shape the answer
 

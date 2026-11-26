@@ -40,7 +40,7 @@ Do not begin the review until the lens is known. A lens explicitly stated in the
 
 ## Refute before reporting
 
-Before reporting, try to disprove every drafted P0, P1, and P2 finding. P3 findings skip this pass.
+Before reporting, try to disprove every drafted P0, P1, and P2 finding. P3 findings skip this pass. The pass is mandatory: running the code, a reproduction, or high confidence does not replace it.
 
 - When a subagent tool is available, dispatch one fresh, read-only refuter per finding using [refute-prompt.md](refute-prompt.md). Give it the finding's severity, title, location, and one-sentence claim, the change and base branch, and the repository path. Do not give it the reasoning or evidence that produced the finding. Independent refuters may run in parallel.
 - Without a subagent tool, refute each finding yourself as a separate pass: re-read the cited code, its callers, and the guards before it from scratch, looking only for what makes the claim false.
@@ -48,6 +48,7 @@ Before reporting, try to disprove every drafted P0, P1, and P2 finding. P3 findi
   - **Refuted:** move the finding to Declined to judge, citing the refuter's `path:line` evidence.
   - **Confirmed:** keep the finding. If the refuter says its size or cause is overstated, correct the finding, and its severity if needed.
   - **Unsure:** keep the finding at its severity and add a final line, `Unconfirmed: <what would settle it>`.
+- Whenever any P0, P1, or P2 finding was drafted, report the pass after the findings as one line: `Refute pass: N checked — X confirmed, Y refuted, Z unsure`.
 
 ## Findings
 
@@ -61,15 +62,23 @@ Report only actionable findings, ordered by severity:
 Use this shape for each finding:
 
 ```text
-[P1] Imperative, specific title — path/to/file:line
+[P1] Imperative, specific title — path/to/file:line   Proof: ran
 Impact and the conditions that trigger it. Evidence from the changed code and relevant context. A concrete remediation.
 ```
+
+Label each finding with its strongest proof:
+
+- `ran`: observed by executing something (a test, a command, a reproduction).
+- `read`: traced in the code.
+- `doc`: stated by the plan, PR, issue, documentation, or the user, and not contradicted by the code.
+
+A `guess` (not checked) is never a finding; it belongs under Declined to judge or in an `Unconfirmed:` line.
 
 Keep locations as tight as possible and within the diff when the interface permits. Do not include praise, a change summary, stylistic preferences, or speculative concerns. Ask a question only when missing information prevents deciding whether an issue is real.
 
 If there are no actionable findings under the chosen lens, say so explicitly and mention any material verification limitation.
 
-After the findings, add:
+After the findings, add the refute-pass line, then:
 
 - **Declined to judge:** each concern you considered and set aside (unproven, out of lens, out of scope, intended behavior, or pre-existing on the base branch), one line each with the reason, so nothing is dropped silently. Write "None" if you set nothing aside.
 - **Verdict:** `Ready to merge`, `Ready with fixes`, or `Not ready`, with a one-sentence reason grounded in the findings.

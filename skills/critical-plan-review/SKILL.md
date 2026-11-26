@@ -49,9 +49,17 @@ Report only actionable findings, ordered by severity:
 Use this shape for each finding:
 
 ```text
-[P1] Imperative, specific title — plan section or step, project path:line
+[P1] Imperative, specific title — plan section or step, project path:line   Proof: read
 Why it is a problem, with evidence from the project. A concrete change to the plan.
 ```
+
+Label each finding with its strongest proof:
+
+- `ran`: observed by executing something (a test, a command, an experiment).
+- `read`: traced in the code or configuration.
+- `doc`: stated by the plan, documentation, or the user, and not contradicted by the project.
+
+A `guess` (not checked) is never a finding; it belongs under Declined to judge.
 
 Do not include praise, a plan summary, stylistic preferences, or speculative concerns. Ask a question only when missing information prevents deciding whether an issue is real.
 

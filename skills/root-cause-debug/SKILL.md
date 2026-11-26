@@ -31,12 +31,12 @@ This skill encodes the user's own work style. When it applies, it takes preceden
 Stop and present:
 
 - **Reproduction:** the trigger and the observed versus expected output.
-- **Root cause:** what is wrong, at `path:line`, and the evidence that proves it.
+- **Root cause:** what is wrong, at `path:line`, the evidence that proves it, and its strongest proof label: `ran` (observed by executing a test, command, or reproduction), `read` (traced in the code), or `doc` (stated by documentation or the user). Write it as `Proof: ran`.
 - **Blast radius:** other callers, data, or behavior affected by the same cause.
 - **Fix options:** each with a brief explanation, pros, and cons; mark the option that follows repository conventions as the default; recommend one and say why, explaining why it beats the default when it differs.
 - **Larger issues found:** related problems outside the bug, each with its impact, asking what should be done with each.
 
-Wait for the user's decision before fixing. If the root cause could not be proven, say so plainly, state the best-supported hypothesis and what evidence is missing, and ask how to proceed.
+Wait for the user's decision before fixing. If the root cause could not be proven, say so plainly, state the best-supported hypothesis labelled `Proof: guess` and what evidence is missing, and ask how to proceed.
 
 ## Fix
 
