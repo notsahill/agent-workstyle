@@ -3,6 +3,9 @@ type: llm
 focus: last_message
 ---
 
-The final message states the single viable change (passing a channel to notify.send in jobs/reminders.py, in
-line with how the other callers do it) and briefly says why alternatives are not useful. It either asks for
-approval before editing, or, if it already made the edit, it does not ask the user to choose between options.
+The prompt fully specifies one change: pass `channel="email"` to notify.send in jobs/reminders.py, as the
+other callers do. Pass if the final message does either of these:
+(a) states that single change, says briefly why there is no real alternative, and asks for approval before editing; or
+(b) reports that it made that change in jobs/reminders.py.
+Fail only if it asks the user to choose between several options, or reports editing files other than
+jobs/reminders.py. Verification notes, shipping notes, git commands, and "none found" sections do not matter.

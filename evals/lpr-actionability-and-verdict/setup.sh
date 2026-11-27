@@ -13,6 +13,10 @@ def page_numbers(total_items, per_page):
 EOF
 cat > warm.py <<'EOF'
 CACHE = {}
+
+
+def prime():
+    CACHE["ready"] = True
 EOF
 git add -A
 git commit -qm 'Initial version'
@@ -26,7 +30,7 @@ import warm
 
 def page_numbers(total_items, per_page):
     xx = math.ceil(total_items / per_page)
-    threading.Thread(target=warm.CACHE.update, args=({"pages": xx},)).start()
+    threading.Thread(target=warm.prime).start()
     return list(range(1, xx))
 EOF
 git add -A
